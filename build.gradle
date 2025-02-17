@@ -60,6 +60,10 @@ dependencies {
 
     // h2-db
     runtimeOnly 'com.h2database:h2'
+
+    // mysql
+    implementation 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
