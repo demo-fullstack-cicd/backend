@@ -5,7 +5,7 @@ import _2024.winter.demopico.domain.image.dto.GetImageResponse;
 import _2024.winter.demopico.domain.image.dto.ImageUploadSuccessRequest;
 import _2024.winter.demopico.domain.image.dto.UploadPresignedUrlDto;
 import _2024.winter.demopico.domain.image.entity.Image;
-import _2024.winter.demopico.domain.repository.ImageRepository;
+import _2024.winter.demopico.domain.image.repository.ImageRepository;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
@@ -92,7 +92,6 @@ public class ImageService {
                 .withBucketName(bucket);
 
         ListObjectsV2Result result = amazonS3.listObjectsV2(listObjectsRequest);
-
         return result.getObjectSummaries().stream()
                 .map(this::convertToImageResponse)
                 .collect(Collectors.toList());

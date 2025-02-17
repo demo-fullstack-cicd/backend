@@ -1,4 +1,4 @@
-package _2024.winter.demopico.domain.repository;
+package _2024.winter.demopico.domain.image.repository;
 
 import _2024.winter.demopico.domain.image.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
