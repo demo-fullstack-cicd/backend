@@ -54,7 +54,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/h2-console/**", "/login", "/register/**", "/reissue", "/images/**").permitAll()
+                        .requestMatchers("/h2-console/**", "/login", "/register/**", "/reissue").permitAll()
                         .anyRequest().authenticated());
 
         http
