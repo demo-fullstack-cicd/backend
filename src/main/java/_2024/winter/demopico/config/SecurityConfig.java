@@ -54,7 +54,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/h2-console/**", "/login", "/register/**", "/reissue").permitAll()
+                        .requestMatchers("/h2-console/**", "/login", "/register/**", "/reissue", "/images/**").permitAll()
                         .anyRequest().authenticated());
 
         http
@@ -80,15 +80,20 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://127.0.0.1:5500", "http://juhhoho.xyz", "http://ec2.juhhoho.xyz")); // 프론트엔드 URL
+        configuration.setAllowedOriginPatterns(List.of(
+                "http://127.0.0.1:*", // 로컬 개발 환경에서 포트 제한 없이 허용
+                "http://juhhoho.xyz", // 정확한 도메인 허용
+                "http://ec2.juhhoho.xyz" // AWS 서버 도메인 허용
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("location", "access", "refresh"));
+        configuration.setExposedHeaders(List.of("location", "access"));
         configuration.setAllowCredentials(true); // 인증 관련 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
 }

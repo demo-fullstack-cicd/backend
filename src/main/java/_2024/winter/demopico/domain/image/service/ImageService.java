@@ -92,6 +92,9 @@ public class ImageService {
                 .withBucketName(bucket);
 
         ListObjectsV2Result result = amazonS3.listObjectsV2(listObjectsRequest);
+
+        System.out.println(result.getObjectSummaries());
+
         return result.getObjectSummaries().stream()
                 .map(this::convertToImageResponse)
                 .collect(Collectors.toList());

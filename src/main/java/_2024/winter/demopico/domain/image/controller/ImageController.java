@@ -16,6 +16,7 @@ public class ImageController {
 
     @GetMapping("/images")
     public List<GetImageResponse> getImages(){
+        log.info("[ImageController - getImages]");
         return imageService.getImages();
     }
 
