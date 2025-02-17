@@ -95,6 +95,7 @@ public class ImageService {
         return result.getObjectSummaries().stream()
                 .map(this::convertToImageResponse)
                 .collect(Collectors.toList());
+        // ..
     }
 
     private GetImageResponse convertToImageResponse(S3ObjectSummary s3ObjectSummary) {
