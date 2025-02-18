@@ -38,7 +38,7 @@ public class UserService {
             System.out.println(userRepository.existsByUsername(request.getUsername()));
             throw new RuntimeException("duplicated username");
         }
-
+        System.out.println("no err in username " + request.getUsername());
         return ResponseEntity.ok().body(request.getUsername());
     }
 
