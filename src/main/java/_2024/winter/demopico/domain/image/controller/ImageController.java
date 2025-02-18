@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class ImageController {
     private final ImageService imageService;
 

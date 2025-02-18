@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/register")
+@RequestMapping("/api")
 //@CrossOrigin(origins = "*", methods = RequestMethod.POST)
 public class RegisterController {
 
@@ -22,7 +22,7 @@ public class RegisterController {
     private final UserService userService;
 
     // 1. username 중복 확인
-    @PostMapping("/check/username")
+    @PostMapping("/register/check/username")
     public ResponseEntity<String> checkUsernameDuplicate(@RequestBody CheckUsernameRequest request){
         log.info("[RegisterController - checkUsernameDuplicate] request.username = {}", request.getUsername());
 
@@ -30,7 +30,7 @@ public class RegisterController {
     }
 
     // 2. auth-email 전송
-    @PostMapping("/email/send")
+    @PostMapping("/register/email/send")
     public ResponseEntity<String> sendAuthEmail(@RequestBody SendAuthEmailRequest request) {
         log.info("[[RegisterController - AuthEmail send] request.email = {}", request.getEmail());
 
@@ -38,7 +38,7 @@ public class RegisterController {
     }
 
     // 3. auth-email code 검증
-    @PostMapping("/email/check")
+    @PostMapping("/register/email/check")
     public ResponseEntity<String> checkAuthEmail(@RequestBody CheckAuthEmailRequest request) {
         log.info("[[RegisterController - AuthEmail check] request.email = {}, request.verificationCode = {}", request.getEmail(), request.getVerificationCode());
 
@@ -46,7 +46,7 @@ public class RegisterController {
     }
 
     // 4. 회원 가입
-    @PostMapping("/signup")
+    @PostMapping("/register/signup")
     public ResponseEntity<Long> register(@RequestBody RegisterRequest request){
         log.info("[RegisterController - register] request.username = {}, request.password = {}, request.email = {}", request.getUsername(), request.getPassword(), request.getEmail());
 
