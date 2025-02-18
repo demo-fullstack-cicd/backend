@@ -28,7 +28,7 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // h2 db 연결은 필터 제외
         String requestURI = request.getRequestURI();
-        if (requestURI.startsWith("/h2") || requestURI.startsWith("/favicon")) {
+        if (requestURI.startsWith("/h2") || requestURI.startsWith("/favicon") || requestURI.startsWith("/api/health")) {
             filterChain.doFilter(request, response);
             return;
         }
