@@ -82,8 +82,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of(
                 "http://127.0.0.1:*", // 로컬 개발 환경에서 포트 제한 없이 허용
-                "http://juhhoho.xyz", // 정확한 도메인 허용
-                "http://ec2.juhhoho.xyz" // AWS 서버 도메인 허용
+                "https://juhhoho.xyz" // 정확한 도메인 허용
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
