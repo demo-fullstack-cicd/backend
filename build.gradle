@@ -54,16 +54,16 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
-    // aws
-    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
-    implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
-
     // h2-db
     runtimeOnly 'com.h2database:h2'
 
     // mysql
     implementation 'com.mysql:mysql-connector-j'
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // aws
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
 }
 
 tasks.named('test') {
