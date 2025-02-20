@@ -66,26 +66,24 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-test .
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-test
 
-      - name: Create deployment package
+      - name: Package deployment files
         run: |
-          mkdir -p codedeploy
-          echo "${{ secrets.DOCKER_COMPOSE_YML }}" | base64 --decode > codedeploy/docker-compose.yml
-          echo "${{ secrets.APPSPEC }}" | base64 --decode > codedeploy/appspec.yml
-          zip -r deploy.zip codedeploy
+          mkdir -p deploy
+          cp appspec.yml deploy/
+          cp -r scripts deploy/  # scripts 폴더 내 배포 스크립트 포함
+          zip -r deploy.zip deploy/
 
       - name: Upload to S3
-        uses: aws-actions/aws-cli-action@v2
-        with:
-          command: s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
+        run: |
+          aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
 
-      - name: Deploy to AWS CodeDeploy
-        uses: aws-actions/aws-cli-action@v2
-        with:
-          command: >
-            deploy create-deployment
-            --application-name my-codedeploy-app
-            --deployment-group-name my-deployment-group
-            --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},key=deploy.zip,bundleType=zip
+      - name: Deploy with CodeDeploy
+        run: |
+          aws deploy create-deployment \
+            --application-name my-app \
+            --deployment-group-name my-deployment-group \
+            --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=deploy.zip
+  
   pr-slack:
     if: github.event_name == 'pull_request'
     needs: [ci]
