@@ -92,7 +92,7 @@ jobs:
           mkdir -p deploy
           cp appspec.yml deploy/
           # cp -r scripts deploy/  
-          sed -i "s|S3BucketName|${{ secrets.S3_BUCKET_NAME }}|g" scripts/deploy.sh
+          sed -i 's|S3BucketName|'"${{ secrets.S3_BUCKET_NAME }}"'|g' scripts/deploy.sh
           cp scripts/deploy.sh deploy/
           cp scripts/stop.sh deploy/
           cp docker-compose.yml deploy/  
