@@ -1,7 +1,13 @@
 #!/bin/bash
 set -eux
 
-# 환경 변수 설정 (GitHub Actions에서 넘겨준 값 사용)
+# S3에서 .env 파일 다운로드
+aws s3 cp s3://${S3_BUCKET_NAME}/.env .env
+
+# 환경 변수 로드
+export $(cat .env | xargs)
+
+# Docker 로그인
 docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 docker pull "$DOCKER_USERNAME"/docker-test:latest
 
