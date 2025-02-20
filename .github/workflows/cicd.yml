@@ -5,46 +5,47 @@ on:
 
 
 jobs:
-  # ci:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Ensure resources directory exists
-  #       run: mkdir -p ./src/main/resources/
-
-  #     - name: Create application.yml from LOCAL_YML
-  #       run: echo "${{ secrets.LOCAL_YML }}" | base64 --decode > ./src/main/resources/application.yml
-
-  #     - name: Set up JDK 17
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         java-version: '17'
-  #         distribution: 'temurin'
-
-  #     - name: Grant execute permission for Gradle Wrapper
-  #       run: chmod +x gradlew
-
-  #     - name: Setup Gradle
-  #       uses: gradle/actions/setup-gradle@v4
-
-  #     - name: Build and test with Gradle (LOCAL_YML)
-  #       run: ./gradlew build
-
-  cd:
-    if: github.event_name == 'push'
+  ci:
     runs-on: ubuntu-latest
-    env:
-      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-    # needs: [ci]
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
       - name: Ensure resources directory exists
         run: mkdir -p ./src/main/resources/
 
+      - name: Create application.yml from LOCAL_YML
+        run: echo "${{ secrets.LOCAL_YML }}" | base64 --decode > ./src/main/resources/application.yml
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build and test with Gradle (LOCAL_YML)
+        run: ./gradlew build
+
+  cd:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+    needs: [ci]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure resources directory exists
+        run: mkdir -p ./src/main/resources/
+
+      # for test
       - name: Replace application.yml with DEV_YML
         run: echo "${{ secrets.LOCAL_YML }}" | base64 --decode > ./src/main/resources/application.yml
 
@@ -62,12 +63,6 @@ jobs:
 
       - name: Build with Gradle (DEV_YML)
         run: ./gradlew build
-      
-      - name: Set up environment variables
-        run: |
-          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> $GITHUB_ENV
-          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> $GITHUB_ENV
-          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> $GITHUB_ENV
 
       - name: Docker build & push to Docker Hub
         run: |
@@ -82,26 +77,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Create .env file
-        run: |
-          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > .env
-          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> .env
-          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
-          aws s3 cp .env s3://${{ secrets.S3_BUCKET_NAME }}/.env
-
       - name: Package deployment files
         run: |
           mkdir -p deploy
-          cp appspec.yml deploy/
-          cp docker-compose.yml deploy/  
+          cp appspec.yml docker-compose.yml deploy/
           cp -r scripts deploy/
           envsubst < scripts/deploy.sh > deploy/scripts/deploy.sh
-          
           zip -r deploy.zip deploy/
           
-      - name: Upload to S3
+      - name: Set up environment variables for .env
+        run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > .env
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> .env
+          
+      - name: Upload to S3 deploy.zip & .env
         run: |
           aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
+          aws s3 cp .env s3://${{ secrets.S3_BUCKET_NAME }}/.env
 
       - name: Deploy with CodeDeploy
         run: |
@@ -111,32 +103,32 @@ jobs:
             --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=deploy.zip
 
   
-  # pr-slack:
-  #   if: github.event_name == 'pull_request'
-  #   needs: [ci]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Slack Notification for PR CI
-  #       uses: 8398a7/action-slack@v3
-  #       with:
-  #         status: ${{ job.status }}
-  #         author_name: GitHub-Actions CI
-  #         fields: repo,message,commit,author,ref,job,took
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #       if: always()
+  pr-slack:
+    if: github.event_name == 'pull_request'
+    needs: [ci]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification for PR CI
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: GitHub-Actions CI
+          fields: repo,message,commit,author,ref,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
 
-  # push-slack:
-  #   if: github.event_name == 'push'
-  #   needs: [cd]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Slack Notification for Push CI/CD
-  #       uses: 8398a7/action-slack@v3
-  #       with:
-  #         status: ${{ job.status }}
-  #         author_name: GitHub-Actions CI/CD
-  #         fields: repo,message,commit,author,ref,job,took
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #       if: always()
+  push-slack:
+    if: github.event_name == 'push'
+    needs: [cd]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification for Push CI/CD
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: GitHub-Actions CI/CD
+          fields: repo,message,commit,author,ref,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
