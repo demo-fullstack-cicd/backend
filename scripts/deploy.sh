@@ -7,12 +7,21 @@ aws s3 cp s3://${S3_BUCKET_NAME}/.env /home/ec2-user/.env
 # 다운로드한 .env 파일의 권한을 ec2-user에게 부여
 sudo chown ec2-user:ec2-user /home/ec2-user/.env
 
-# 환경 변수 로드 (다운로드된 .env 파일을 사용)
-export $(cat /home/ec2-user/.env | xargs)
+# .env 파일이 존재하는지 확인 후 환경 변수 로드
+if [ -f "/home/ec2-user/.env" ]; then
+    set -a  # 자동으로 export 처리
+    source /home/ec2-user/.env
+    set +a
+else
+    echo "🚨 .env 파일이 존재하지 않습니다!"
+    exit 1
+fi
 
 # Docker 로그인
 docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-docker pull "$DOCKER_USERNAME"/docker-test:latest
+
+# Docker 이미지 pull
+docker pull "${DOCKER_USERNAME}/docker-test:latest"
 
 # 기존 컨테이너 중지 및 삭제
 if [ "$(docker ps -q -f name=spring-app)" ]; then
