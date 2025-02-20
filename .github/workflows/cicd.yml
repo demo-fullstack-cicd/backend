@@ -1,8 +1,5 @@
 name: cicd pipeline
 on:
-  pull_request:
-    branches: [ "dev" ]
-    types: [opened, synchronize]
   push:
     branches: ["dev"]
 
@@ -80,7 +77,7 @@ jobs:
             cd ~/app
             echo "${{ secrets.DOCKER_COMPOSE_YML }}" | base64 --decode > docker-compose.yml
             
-            # 기존 컨테이너 중지 (redis 제외)
+            # 기존 컨테이너 중지
             if [ "$(sudo docker ps -q -f name=spring-app)" ]; then
               sudo docker stop spring-app
               sudo docker rm spring-app
@@ -91,13 +88,6 @@ jobs:
             
             # 애플리케이션 컨테이너 재실행
             sudo docker-compose up -d --no-deps app
-            
-            # Redis 컨테이너 재시작 (필요할 경우)
-            if [ "$(sudo docker ps -q -f name=redis)" ]; then
-              sudo docker restart redis
-            else
-              sudo docker-compose up -d redis
-            fi
               
             sudo docker ps -a
             
