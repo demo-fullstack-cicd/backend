@@ -94,8 +94,8 @@ jobs:
           mkdir -p deploy
           cp appspec.yml deploy/
           # cp -r scripts deploy/  
-          envsubst < scripts/deploy.sh > deploy/deploy.sh
           cp scripts/deploy.sh deploy/
+          envsubst < scripts/deploy.sh > deploy/deploy.sh
           cp scripts/stop.sh deploy/
           cp docker-compose.yml deploy/  
           zip -r deploy.zip deploy/
