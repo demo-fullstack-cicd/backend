@@ -2,7 +2,7 @@
 set -eux
 
 # S3에서 .env 파일 다운로드
-aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/.env .env
+aws s3 cp s3://deploy-config-605134439665/.env .env
 
 # 환경 변수 로드
 export $(cat .env | xargs)
