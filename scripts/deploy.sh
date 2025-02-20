@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eux
 
-# Docker 최신 이미지 Pull
-docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
-docker pull ${{ secrets.DOCKER_USERNAME }}/docker-test:latest
+# 환경 변수 설정 (GitHub Actions에서 넘겨준 값 사용)
+docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+docker pull "$DOCKER_USERNAME"/docker-test:latest
 
 # 기존 컨테이너 중지 및 삭제
 if [ "$(docker ps -q -f name=spring-app)" ]; then
