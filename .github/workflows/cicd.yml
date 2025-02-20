@@ -1,7 +1,7 @@
 name: cicd pipeline
 on:
   push:
-    branches: ["main"]
+    branches: ["dev"]
 
 
 jobs:
@@ -60,6 +60,12 @@ jobs:
 
       - name: Build with Gradle (DEV_YML)
         run: ./gradlew build
+      
+      - name: Set up environment variables
+        run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> $GITHUB_ENV
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> $GITHUB_ENV
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> $GITHUB_ENV
 
       - name: Docker build & push to Docker Hub
         run: |
