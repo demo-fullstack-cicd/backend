@@ -93,11 +93,11 @@ jobs:
         run: |
           mkdir -p deploy
           cp appspec.yml deploy/
-          # cp -r scripts deploy/
-          cp scripts/deploy.sh deploy/scripts/
-          envsubst < scripts/deploy.sh > deploy/scripts/deploy.sh
-          cp scripts/stop.sh deploy/scripts/
           cp docker-compose.yml deploy/  
+          cp -r scripts deploy/
+          envsubst < scripts/deploy.sh > deploy/scripts/deploy.sh
+          
+          
           zip -r deploy.zip deploy/
       
       - name: Print deploy.sh for debugging
