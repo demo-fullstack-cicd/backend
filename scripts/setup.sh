@@ -11,6 +11,9 @@ curl -L "https://github.com/docker/compose/releases/latest/download/docker-compo
 chmod +x /usr/local/bin/docker-compose
 ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
+# redis 설치
+sudo dnf install redis6 -y  # Redis6 설치
+
 # AWS CodeDeploy Agent 설치
 dnf install -y ruby wget
 cd /home/ec2-user
