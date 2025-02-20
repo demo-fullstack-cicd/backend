@@ -70,7 +70,8 @@ jobs:
         run: |
           mkdir -p deploy
           cp appspec.yml deploy/
-          cp -r scripts deploy/  # scripts 폴더 내 배포 스크립트 포함
+          cp -r scripts deploy/  
+          cp docker-compose.yml deploy/  
           zip -r deploy.zip deploy/
 
       - name: Upload to S3
