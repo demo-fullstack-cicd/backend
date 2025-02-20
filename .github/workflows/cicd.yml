@@ -97,20 +97,24 @@ jobs:
           cp scripts/stop.sh deploy/
           cp docker-compose.yml deploy/  
           zip -r deploy.zip deploy/
+      
+      - name: Print deploy.sh for debugging
+        run: cat deploy/deploy.sh
+
           
-      - name: Test S3 Access
-        run: aws s3 ls s3://${{ secrets.S3_BUCKET_NAME }}
+      # - name: Test S3 Access
+      #   run: aws s3 ls s3://${{ secrets.S3_BUCKET_NAME }}
 
-      - name: Upload to S3
-        run: |
-          aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
+      # - name: Upload to S3
+      #   run: |
+      #     aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
 
-      - name: Deploy with CodeDeploy
-        run: |
-          aws deploy create-deployment \
-            --application-name spring-app \
-            --deployment-group-name spring-app-group \
-            --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=deploy.zip
+      # - name: Deploy with CodeDeploy
+      #   run: |
+      #     aws deploy create-deployment \
+      #       --application-name spring-app \
+      #       --deployment-group-name spring-app-group \
+      #       --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=deploy.zip
 
   
   # pr-slack:
