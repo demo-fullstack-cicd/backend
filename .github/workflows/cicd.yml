@@ -97,16 +97,8 @@ jobs:
           cp -r scripts deploy/
           envsubst < scripts/deploy.sh > deploy/scripts/deploy.sh
           
-          
           zip -r deploy.zip deploy/
-      
-      - name: Print deploy.sh for debugging
-        run: cat deploy/deploy.sh
-
           
-      - name: Test S3 Access
-        run: aws s3 ls s3://${{ secrets.S3_BUCKET_NAME }}
-
       - name: Upload to S3
         run: |
           aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
