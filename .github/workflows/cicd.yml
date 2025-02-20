@@ -66,6 +66,13 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/docker-test .
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-test
 
+      - name: Create .env file
+        run: |
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > .env
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> .env
+          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env
+          aws s3 cp .env s3://${{ secrets.S3_BUCKET_NAME }}/.env
+
       - name: Package deployment files
         run: |
           mkdir -p deploy
@@ -84,6 +91,7 @@ jobs:
             --application-name my-app \
             --deployment-group-name my-deployment-group \
             --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=deploy.zip
+
   
   pr-slack:
     if: github.event_name == 'pull_request'
