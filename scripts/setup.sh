@@ -1,9 +1,6 @@
 #!/bin/bash
 set -eux
 
-# 루트 권한으로 실행
-sudo -s
-
 # Docker 설치 및 실행
 dnf install -y docker
 systemctl enable --now docker
