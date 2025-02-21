@@ -2,7 +2,7 @@
 set -eux
 
 # Docker 로그인
-docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
 
 # Docker 이미지 pull
 docker pull ${DOCKER_USERNAME}/docker-test:latest
