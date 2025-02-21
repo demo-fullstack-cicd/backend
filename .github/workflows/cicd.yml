@@ -1,7 +1,7 @@
 name: cicd pipeline
 on:
   push:
-    branches: ["dev"]
+    branches: ["main"]
 
 jobs:
 #   ci:
@@ -37,6 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
     # needs: [ci]
     steps:
       - uses: actions/checkout@v4
@@ -85,11 +87,14 @@ jobs:
           zip -r deploy.zip deploy/
           aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip
           
-      - name: Upload .env to S3
-        run: |
-          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > .env
-          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> .env
-          aws s3 cp .env s3://${{ secrets.S3_BUCKET_NAME }}/.env
+      # - name: Upload .env to S3
+      #   run: |
+      #     S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+      #     DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      #     DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      #     echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > .env
+      #     echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> .env
+      #     aws s3 cp .env s3://${{ secrets.S3_BUCKET_NAME }}/.env
 
       - name: Deploy with CodeDeploy
         run: |
