@@ -36,7 +36,7 @@ jobs:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
-      S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}
+      S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
     # needs: [ci]
