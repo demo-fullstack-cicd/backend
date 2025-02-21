@@ -2,17 +2,13 @@
 set -eux
 
 # S3에서 .env 파일 다운로드 (EC2 홈 디렉토리로 다운로드)
-aws s3 cp s3://$(grep S3_BUCKET_NAME /home/ec2-user/.env | cut -d '=' -f2)/.env /home/ec2-user/.env
+aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/.env /home/ec2-user/.env
 
 # 다운로드한 .env 파일의 권한을 ec2-user에게 부여
 sudo chown ec2-user:ec2-user /home/ec2-user/.env
 
 # 환경 변수 로드
 export $(cat /home/ec2-user/.env | xargs)
-
-# 로그에 찍어보기
-echo "DOCKER_USERNAME: $DOCKER_USERNAME" | tee -a /var/log/codedeploy-output.log
-echo "DOCKER_PASSWORD: $DOCKER_PASSWORD" | tee -a /var/log/codedeploy-output.log
 
 # Docker 로그인
 docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
