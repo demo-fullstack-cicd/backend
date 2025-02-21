@@ -1,7 +1,7 @@
 name: cicd pipeline
 on:
   push:
-    branches: ["dev"]
+    branches: ["main"]
 
 jobs:
 #   ci:
@@ -121,6 +121,6 @@ jobs:
   #         status: ${{ job.status }}
   #         author_name: GitHub-Actions CI/CD
   #         fields: repo,message,commit,author,ref,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #       if: always()
