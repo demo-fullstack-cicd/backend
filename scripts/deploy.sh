@@ -11,10 +11,10 @@ sudo chown ec2-user:ec2-user /home/ec2-user/.env
 export $(cat /home/ec2-user/.env | xargs)
 
 # Docker 로그인
-docker login -u "$(DOCKER_USERNAME)" -p "$(DOCKER_PASSWORD)"
+docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
 
 # Docker 이미지 pull
-docker pull "${DOCKER_USERNAME}/docker-test:latest"
+docker pull ${DOCKER_USERNAME}/docker-test:latest
 
 # 기존 컨테이너 중지 및 삭제
 if [ "$(docker ps -q -f name=spring-app)" ]; then
