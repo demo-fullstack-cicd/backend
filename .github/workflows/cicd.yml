@@ -94,32 +94,18 @@ jobs:
             --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=deploy.zip
 
   
-  # pr-slack:
-  #   if: github.event_name == 'pull_request'
-  #   needs: [ci]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Slack Notification for PR CI
-  #       uses: 8398a7/action-slack@v3
-  #       with:
-  #         status: ${{ job.status }}
-  #         author_name: GitHub-Actions CI
-  #         fields: repo,message,commit,author,ref,job,took
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #       if: always()
-
-  # push-slack:
-  #   if: github.event_name == 'push'
-  #   needs: [cd]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Slack Notification for Push CI/CD
-  #       uses: 8398a7/action-slack@v3
-  #       with:
-  #         status: ${{ job.status }}
-  #         author_name: GitHub-Actions CI/CD
-  #         fields: repo,message,commit,author,ref,job,took
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #       if: always()
+  push-slack:
+    if: github.event_name == 'push'
+    needs: [cd]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Notification for Push CI/CD
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: "GitHub Actions 🚀"
+          fields: commit,author,ref,job,took
+          text: ":rocket: *코드가 배포되었습니다!* - `${{ github.repository }}`\n🔗 *커밋:* <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|커밋 보기>"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
