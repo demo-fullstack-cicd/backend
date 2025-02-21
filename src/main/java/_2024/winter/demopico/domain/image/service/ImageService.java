@@ -88,6 +88,7 @@ public class ImageService {
 
     // -------------------------------------------------------------------------------------
     public List<GetImageResponse> getImages() {
+        log.info("[ImageService - getImages]");
         ListObjectsV2Request listObjectsRequest = new ListObjectsV2Request()
                 .withBucketName(bucket);
 
