@@ -78,7 +78,7 @@ public class CommentCommandService {
                 .build();
     }
 
-    public DeleteCommentResponse deleteComment(Long feedId, Long commentId, HttpServletRequest httpServletRequest){
+    public void deleteComment(Long feedId, Long commentId, HttpServletRequest httpServletRequest){
         log.info("[CommentCommandService - deleteComment]");
 
         String username = jwtUtil.getUsername(httpServletRequest.getHeader("access"));
@@ -91,9 +91,6 @@ public class CommentCommandService {
         validationOwnershipComment(comment, user, feed);
 
         commentRepository.delete(comment);
-
-        return DeleteCommentResponse.builder()
-                .build();
     }
 
 

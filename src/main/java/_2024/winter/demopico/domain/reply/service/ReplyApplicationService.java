@@ -24,7 +24,7 @@ public class ReplyApplicationService {
         return replyCommandService.updateReply(request, feedId, commentId, replyId, httpServletRequest);
     }
 
-    public DeleteReplyResponse deleteReply(Long feedId, Long commentId, Long replyId, HttpServletRequest httpServletRequest) {
-        return replyCommandService.deleteReply(feedId, commentId, replyId, httpServletRequest);
+    public void deleteReply(Long feedId, Long commentId, Long replyId, HttpServletRequest httpServletRequest) {
+        replyCommandService.deleteReply(feedId, commentId, replyId, httpServletRequest);
     }
 }

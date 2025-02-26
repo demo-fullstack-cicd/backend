@@ -45,13 +45,14 @@ public class CommentController {
 
     // 댓글 삭제
     @DeleteMapping("/feeds/{feedId}/comments/{commentId}")
-    public SuccessApiResponse<DeleteCommentResponse> deleteComment(
+    public SuccessApiResponse<Void> deleteComment(
             @PathVariable("feedId") Long feedId,
             @PathVariable("commentId") Long commentId,
             HttpServletRequest httpRequest)
     {
         log.info("[CommentController - deleteComment]  feedId = {}, commentId = {}",feedId, commentId);
-        return SuccessApiResponse.onSuccessDeleteComment(commentApplicationService.deleteComment(feedId, commentId, httpRequest));
+        commentApplicationService.deleteComment(feedId, commentId, httpRequest);
+        return SuccessApiResponse.onSuccessDeleteComment();
     }
 
     // 댓글 조회

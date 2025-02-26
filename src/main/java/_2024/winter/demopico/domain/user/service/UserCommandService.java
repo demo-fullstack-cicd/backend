@@ -72,8 +72,6 @@ public class UserCommandService {
         httpServletResponse.setHeader("access", access);
         httpServletResponse.addCookie(CookieUtil.createCookie("refresh", refresh));
 
-        log.info("access: " + access);
-
         return LoginResponse.builder()
                 .username(user.getUsername())
                 .build();
@@ -86,6 +84,7 @@ public class UserCommandService {
         // cookie refresh 추출
         String cookieRefresh = null;
         Cookie[] cookies = httpServletRequest.getCookies();
+
         for (Cookie cookie : cookies){
             if (cookie.getName().equals("refresh")){
                 cookieRefresh = cookie.getValue();

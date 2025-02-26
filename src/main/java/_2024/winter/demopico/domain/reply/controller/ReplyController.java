@@ -47,13 +47,14 @@ public class ReplyController {
 
     // 대댓글 삭제
     @DeleteMapping("/feeds/{feedId}/comments/{commentId}/replies/{replyId}")
-    public SuccessApiResponse<DeleteReplyResponse> deleteReply(
+    public SuccessApiResponse<Void> deleteReply(
             @PathVariable("feedId") Long feedId,
             @PathVariable("commentId") Long commentId,
             @PathVariable("replyId") Long replyId,
             HttpServletRequest httpRequest)
     {
         log.info("[ReplyController - deleteReply]  feedId = {}, commentId = {}, replyId = {}",feedId, commentId, replyId);
-        return SuccessApiResponse.onSuccessDeleteReply(replyApplicationService.deleteReply(feedId, commentId, replyId, httpRequest));
+        replyApplicationService.deleteReply(feedId, commentId, replyId, httpRequest);
+        return SuccessApiResponse.onSuccessDeleteReply();
     }
 }

@@ -26,8 +26,8 @@ public class CommentApplicationService {
         return commentCommandService.updateComment(request, feedId, commentId, httpServletRequest);
     }
 
-    public DeleteCommentResponse deleteComment(Long feedId, Long commentId, HttpServletRequest httpServletRequest){
-        return commentCommandService.deleteComment(feedId, commentId, httpServletRequest);
+    public void deleteComment(Long feedId, Long commentId, HttpServletRequest httpServletRequest){
+        commentCommandService.deleteComment(feedId, commentId, httpServletRequest);
     }
 
     public GetCommentsResponse getComments(Long feedId){

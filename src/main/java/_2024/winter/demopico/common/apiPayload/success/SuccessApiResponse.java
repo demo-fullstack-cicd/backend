@@ -110,9 +110,9 @@ public class SuccessApiResponse <T> extends BaseApiResponse {
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
                 , "댓글 수정 성공", response);
     }
-    public static SuccessApiResponse<DeleteCommentResponse> onSuccessDeleteComment(DeleteCommentResponse response){
+    public static SuccessApiResponse<Void> onSuccessDeleteComment(){
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
-                , "댓글 삭제 성공", response);
+                , "댓글 삭제 성공", null);
     }
     public static SuccessApiResponse<GetCommentsResponse> onSuccessGetComments(GetCommentsResponse response){
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
@@ -128,9 +128,9 @@ public class SuccessApiResponse <T> extends BaseApiResponse {
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
                 , "대댓글 수정 성공", response);
     }
-    public static SuccessApiResponse<DeleteReplyResponse> onSuccessDeleteReply(DeleteReplyResponse response){
+    public static SuccessApiResponse<Void> onSuccessDeleteReply(){
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
-                , "대댓글 삭제 성공", response);
+                , "대댓글 삭제 성공", null);
     }
 
 }
