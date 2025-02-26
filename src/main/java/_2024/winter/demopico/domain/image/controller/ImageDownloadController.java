@@ -1,7 +1,8 @@
 package _2024.winter.demopico.domain.image.controller;
 
-import _2024.winter.demopico.domain.image.dto.DownloadPresignedUrlDto;
-import _2024.winter.demopico.domain.image.service.ImageService;
+import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
+import _2024.winter.demopico.domain.image.dto.response.GetPresignedUrlToDownloadResponse;
+import _2024.winter.demopico.domain.image.service.ImageApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ImageDownloadController {
-    private final ImageService imageService;
+    private final ImageApplicationService imageApplicationService;
 
     @GetMapping("/image/presignedUrl/download")
-    public DownloadPresignedUrlDto getPresignedUrlToDownload(
+    public SuccessApiResponse<GetPresignedUrlToDownloadResponse> getPresignedUrlToDownload(
             @RequestParam(value = "imageName") String imageName)
     {
-        log.info("imageName: " + imageName);
-        return imageService.getPresignedUrlToDownload(imageName);
+        log.info("[ImageUploadController - getPresignedUrlToUpload] imageName = {}", imageName);
+        return SuccessApiResponse.onSuccessGetPresignedUrlToDownload(imageApplicationService.getPresignedUrlToDownload(imageName));
     }
 }

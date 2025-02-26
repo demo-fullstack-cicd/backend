@@ -19,16 +19,12 @@ public class Image {
     @Column(name = "imageName")
     private String imageName;
 
-    @Column(name = "imageUrl")
-    private String imageUrl;
-
     @Column(name = "uploadedAt")
     private LocalDateTime  uploadedAt;
 
     @Builder
-    public Image(String imageName, String imageUrl, LocalDateTime uploadedAt) {
+    public Image(String imageName, LocalDateTime uploadedAt) {
         this.imageName = imageName;
-        this.imageUrl = imageUrl;
         this.uploadedAt = uploadedAt;
     }
 }

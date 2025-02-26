@@ -1,55 +1,55 @@
 package _2024.winter.demopico.domain.user.controller;
 
-import _2024.winter.demopico.domain.user.dto.CheckAuthEmailRequest;
-import _2024.winter.demopico.domain.user.dto.CheckUsernameRequest;
-import _2024.winter.demopico.domain.user.dto.SendAuthEmailRequest;
-import _2024.winter.demopico.domain.user.dto.RegisterRequest;
-import _2024.winter.demopico.domain.user.service.EmailService;
-import _2024.winter.demopico.domain.user.service.UserService;
+import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
+import _2024.winter.demopico.domain.user.dto.request.CheckAuthEmailRequest;
+import _2024.winter.demopico.domain.user.dto.request.CheckUsernameDuplicateRequest;
+import _2024.winter.demopico.domain.user.dto.request.SendAuthEmailRequest;
+import _2024.winter.demopico.domain.user.dto.request.SignupRequest;
+import _2024.winter.demopico.domain.user.dto.response.CheckAuthEmailResponse;
+import _2024.winter.demopico.domain.user.dto.response.CheckUsernameDuplicateResponse;
+import _2024.winter.demopico.domain.user.dto.response.SendAuthEmailResponse;
+import _2024.winter.demopico.domain.user.dto.response.SignupResponse;
+import _2024.winter.demopico.domain.user.service.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
-//@CrossOrigin(origins = "*", methods = RequestMethod.POST)
 public class RegisterController {
 
-    private final EmailService emailService;
-    private final UserService userService;
+    private final UserApplicationService userApplicationService;
 
     // 1. username 중복 확인
     @PostMapping("/register/check/username")
-    public ResponseEntity<String> checkUsernameDuplicate(@RequestBody CheckUsernameRequest request){
+    public SuccessApiResponse<CheckUsernameDuplicateResponse> checkUsernameDuplicate(@RequestBody CheckUsernameDuplicateRequest request){
         log.info("[RegisterController - checkUsernameDuplicate] request.username = {}", request.getUsername());
 
-        return userService.checkUsernameDuplicate(request);
+        return SuccessApiResponse.onSuccessCheckUsernameDuplicate(userApplicationService.checkUsernameDuplicate(request));
     }
 
     // 2. auth-email 전송
     @PostMapping("/register/email/send")
-    public ResponseEntity<String> sendAuthEmail(@RequestBody SendAuthEmailRequest request) {
+    public SuccessApiResponse<SendAuthEmailResponse> sendAuthEmail(@RequestBody SendAuthEmailRequest request) {
         log.info("[[RegisterController - AuthEmail send] request.email = {}", request.getEmail());
 
-        return emailService.sendAuthEmail(request);
+        return SuccessApiResponse.onSuccessSendAuthEmail(userApplicationService.sendAuthEmail(request));
     }
 
     // 3. auth-email code 검증
     @PostMapping("/register/email/check")
-    public ResponseEntity<String> checkAuthEmail(@RequestBody CheckAuthEmailRequest request) {
+    public SuccessApiResponse<CheckAuthEmailResponse> checkAuthEmail(@RequestBody CheckAuthEmailRequest request) {
         log.info("[[RegisterController - AuthEmail check] request.email = {}, request.verificationCode = {}", request.getEmail(), request.getVerificationCode());
 
-        return emailService.checkAuthEmail(request);
+        return SuccessApiResponse.onSuccessCheckAuthEmail(userApplicationService.checkAuthEmail(request));
     }
 
     // 4. 회원 가입
     @PostMapping("/register/signup")
-    public ResponseEntity<Long> register(@RequestBody RegisterRequest request){
+    public SuccessApiResponse<SignupResponse> signup(@RequestBody SignupRequest request){
         log.info("[RegisterController - register] request.username = {}, request.password = {}, request.email = {}", request.getUsername(), request.getPassword(), request.getEmail());
-
-        return userService.register(request);
+        return SuccessApiResponse.onSuccessSignup(userApplicationService.signup(request));
     }
 }

@@ -1,24 +1,24 @@
 package _2024.winter.demopico.domain.image.controller;
 
-import _2024.winter.demopico.domain.image.dto.GetImageResponse;
-import _2024.winter.demopico.domain.image.service.ImageService;
+import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
+import _2024.winter.demopico.domain.image.dto.response.GetImagesResponse;
+import _2024.winter.demopico.domain.image.service.ImageApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ImageController {
-    private final ImageService imageService;
+    private final ImageApplicationService imageApplicationService;
 
     @GetMapping("/images")
-    public List<GetImageResponse> getImages(){
+    public SuccessApiResponse<GetImagesResponse> getImages(){
         log.info("[ImageController - getImages]");
-        return imageService.getImages();
+        return SuccessApiResponse.onSuccessGetImages(imageApplicationService.getImages());
     }
 
 }
