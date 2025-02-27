@@ -1,11 +1,14 @@
 package _2024.winter.demopico.domain.user.controller;
 
-import _2024.winter.demopico.domain.user.service.UserService;
+import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
+import _2024.winter.demopico.domain.user.dto.response.ReissueResponse;
+import _2024.winter.demopico.domain.user.service.UserApplicationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ReissueController {
 
-    private final UserService userService;
+    private final UserApplicationService userApplicationService;
 
     @PostMapping("/reissue")
-    public ResponseEntity<Long> reissue(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
+    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    public SuccessApiResponse<ReissueResponse> reissue(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
         log.info("[ReissueController - refresh]");
 
-        return userService.reissue(httpRequest, httpResponse);
+        return SuccessApiResponse.onSuccessReissue(userApplicationService.reissue(httpRequest, httpResponse));
     }
 }

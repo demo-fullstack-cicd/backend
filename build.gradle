@@ -64,6 +64,21 @@ dependencies {
     // aws
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
     implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
+
+    // QueryDsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // excel
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+    delete file('src/main/generated')
 }
 
 tasks.named('test') {
