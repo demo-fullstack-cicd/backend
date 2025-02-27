@@ -13,8 +13,8 @@ public class FeedApplicationService {
     private final FeedCommandService feedCommandService;
     private final FeedQueryService feedQueryService;
 
-    public GetFeedsResponse getFeeds(int page, int size, String search){
-        return feedQueryService.getFeeds(page, size, search);
+    public GetFeedsResponse getFeeds(int page, int size, String search, String hashtag){
+        return feedQueryService.getFeeds(page, size, search, hashtag);
     }
 
     public UploadOneFeedResponse uploadOneFeed(UploadFeedRequest request, HttpServletRequest httpServletRequest){

@@ -35,11 +35,11 @@ public class EmailCommandService {
         int verificationCode = makeRandomNum();
 
         // 이메일 제목, 내용
-        String title = "[demo-email-auth] 회원 가입 이메일 테스트";
+        String title = "[Welcome TWGING!] 회원 가입 이메일";
         String content =
                 "이메일을 인증하기 위한 절차입니다." +
                         "<br><br>" +
-                        "인증 번호는 " + verificationCode + " 입니다." +
+                        "인증 번호는 " + verificationCode + "입니다." +
                         "<br>" +
                         "회원 가입 폼에 해당 번호를 입력해주세요.";
         // 이메일 전송

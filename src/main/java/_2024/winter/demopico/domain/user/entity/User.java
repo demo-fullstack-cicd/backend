@@ -27,6 +27,17 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "studentId")
+    private String studentId;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "name")
+    private String name;
+
+
+
     @Column(name = "role")
     private String role;
 
@@ -34,10 +45,13 @@ public class User {
     private List<Feed> feeds = new ArrayList<>();
 
     @Builder
-    public User(String username, String password, String email, String role) {
+    public User(String username, String password, String email, String role, String name, String studentId, String phone) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.name = name;
+        this.studentId = studentId;
+        this.phone = phone;
     }
 }

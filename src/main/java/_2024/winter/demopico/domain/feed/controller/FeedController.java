@@ -22,10 +22,11 @@ public class FeedController {
     public SuccessApiResponse<GetFeedsResponse> getFeeds(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(required = false) String search)
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String hashtag)
     {
-        log.info("[FeedController - getFeeds] page = {}, size = {}, search = {}", page, size, search);
-        return SuccessApiResponse.onSuccessGetFeeds(feedApplicationService.getFeeds(page, size, search));
+        log.info("[FeedController - getFeeds] page = {}, size = {}, search = {}, hashtag = {}", page, size, search, hashtag);
+        return SuccessApiResponse.onSuccessGetFeeds(feedApplicationService.getFeeds(page, size, search, hashtag));
     }
 
     // 게시글 업로드
@@ -56,7 +57,7 @@ public class FeedController {
         return SuccessApiResponse.onSuccessDeleteOneFeed(feedApplicationService.deleteOneFeed(feedId));
     }
 
-    // 게시글 삭제
+    // 게시글 수정
     @PatchMapping("/feeds/{feedId}")
     public SuccessApiResponse<UpdateOneFeedResponse> updateOneFeed(
             @PathVariable("feedId") Long feedId,

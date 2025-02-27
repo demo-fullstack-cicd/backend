@@ -23,13 +23,25 @@ public class FeedQueryService {
 
     private final FeedRepository feedRepository;
 
-    public GetFeedsResponse getFeeds(int page, int size, String search) {
+    public GetFeedsResponse getFeeds(int page, int size, String search, String hashtag) {
         log.info("[FeedQueryService - getFeeds]");
 
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "uploadAt"));
-        Page<Feed> pagingFeeds = (search == null || search.trim().isEmpty())
-                ? feedRepository.findAll(pageable)
-                : feedRepository.searchFeeds(search, pageable);
+        Page<Feed> pagingFeeds;
+
+        if ((search == null || search.trim().isEmpty()) && (hashtag == null || hashtag.trim().isEmpty())) {
+            // 1. search, hashtag 둘 다 없을 때 → findAll
+            pagingFeeds = feedRepository.findAll(pageable);
+        } else if (search != null && !search.trim().isEmpty() && (hashtag == null || hashtag.trim().isEmpty())) {
+            // 2. search만 있을 때 → searchFeeds
+            pagingFeeds = feedRepository.searchFeeds(search, pageable);
+        } else if ((search == null || search.trim().isEmpty()) && hashtag != null && !hashtag.trim().isEmpty()) {
+            // 3. hashtag만 있을 때 → hashtagFeeds
+            pagingFeeds = feedRepository.hashtagFeeds(hashtag, pageable);
+        } else {
+            // 4. search와 hashtag 둘 다 있을 때 → searchAndHashtagFeeds
+            pagingFeeds = feedRepository.searchAndHashtagFeeds(search, hashtag, pageable);
+        }
 
         List<FeedBriefDto> pagingBriefFeeds = pagingFeeds.getContent().stream()
                 .map(FeedBriefDto::new)
@@ -42,6 +54,7 @@ public class FeedQueryService {
                 .feeds(pagingBriefFeeds)
                 .build();
     }
+
 
     public GetOneFeedResponse getOneFeed(Long feedId){
         log.info("[FeedQueryService - getOneFeed]");

@@ -10,16 +10,26 @@ import _2024.winter.demopico.domain.user.entity.User;
 import _2024.winter.demopico.domain.user.repository.UserRepository;
 import _2024.winter.demopico.domain.user.util.CookieUtil;
 import _2024.winter.demopico.domain.user.util.JWTUtil;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.S3Object;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -32,16 +42,32 @@ public class UserCommandService {
     private final StringRedisTemplate stringRedisTemplate;
     private final JWTUtil jwtUtil;
 
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String BUCKET_NAME;
+
+    private static final String FILE_KEY = "tgwing-info.xlsx";
+
+
     // 회원가입
     public SignupResponse signup(SignupRequest request){
         log.info("[UserCommandService - signup]");
+
+        if (!isUserValid(request)) {
+            throw new IllegalArgumentException("동아리 회원 목록에 없는 사용자입니다.");
+        }
 
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
+                .studentId(request.getStudentId())
+                .phone(request.getPhone())
+                .name(request.name)
                 .role("ROLE_USER")
                 .build();
+
         userRepository.saveAndFlush(user);
 
         return SignupResponse.builder()
@@ -122,5 +148,59 @@ public class UserCommandService {
         return ReissueResponse.builder()
                 .userId(reissuedUser.getId())
                 .build();
+    }
+
+    /**
+     * 🔹 S3에서 엑셀 파일을 다운로드하고, 회원 정보가 존재하는지 확인
+     */
+    private boolean isUserValid(SignupRequest request) {
+        try (InputStream inputStream = getExcelFileFromS3()) {
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet sheet = workbook.getSheetAt(0); // 첫 번째 시트
+
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue; // 첫 번째 행(헤더) 스킵
+
+                String name = getCellValue(row.getCell(0));
+                String email = getCellValue(row.getCell(1));
+                String phone = getCellValue(row.getCell(2));
+                String studentId = getCellValue(row.getCell(3));
+
+                // 🔹 회원 정보가 엑셀에 존재하는지 확인
+                if (request.getName().equals(name) &&
+                        request.getEmail().equals(email) &&
+                        request.getPhone().substring(1).equals(phone) &&
+                        request.getStudentId().equals(studentId)) {
+                    return true; // 유효한 회원
+                }
+            }
+        } catch (IOException e) {
+            log.error("엑셀 파일을 읽는 중 오류 발생", e);
+            throw new UserException.UserNotClubMemberException();
+        }
+        return false;
+    }
+
+    /**
+     * 🔹 S3에서 엑셀 파일 다운로드
+     */
+    private InputStream getExcelFileFromS3() {
+        S3Object s3Object = amazonS3.getObject(BUCKET_NAME, FILE_KEY);
+        System.out.println("BUCKET_NAME = " + BUCKET_NAME);
+        System.out.println("s3Object = " + s3Object.getBucketName());
+        return s3Object.getObjectContent();
+    }
+
+    /**
+     * 🔹 셀 값을 String으로 변환
+     */
+    private String getCellValue(Cell cell) {
+        if (cell == null) return "";
+        return switch (cell.getCellType()) {
+            case STRING -> cell.getStringCellValue().trim();
+            case NUMERIC -> String.valueOf((long) cell.getNumericCellValue()); // 학번 등 숫자는 정수 변환
+            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            default -> "";
+        };
     }
 }

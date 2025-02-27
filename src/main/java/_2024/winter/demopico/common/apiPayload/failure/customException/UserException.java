@@ -6,4 +6,5 @@ public class UserException {
     public static class UsernameNotExistException extends RuntimeException{}
     public static class PasswordNotValidException extends RuntimeException{}
     public static class RefreshTokenNotValidException extends RuntimeException{}
+    public static class UserNotClubMemberException extends RuntimeException{}
 }

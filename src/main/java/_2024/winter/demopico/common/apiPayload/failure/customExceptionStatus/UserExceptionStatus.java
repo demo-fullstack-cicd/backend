@@ -13,6 +13,7 @@ public enum UserExceptionStatus {
     USERNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "40002", "존재하지 않는 사용자이름입니다."),
     PASSWORD_NOT_VALID(HttpStatus.BAD_REQUEST, "40003", "비밀번호가 일치하지 않습니다."),
     REFRESH_TOKEN_NOT_VALID(HttpStatus.BAD_REQUEST, "40004", "토큰이 유효하지 않습니다."),
+    USER_NOT_CLUB_MEMBER(HttpStatus.BAD_REQUEST, "40005", "동아리 회원 정보가 존재하지 않습니다."),
 
 
     ;

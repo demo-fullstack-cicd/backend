@@ -14,4 +14,5 @@ public class UploadFeedRequest {
     public String content;
     public String thumbnail;
     public String plainText;
+    public String hashtag;
 }

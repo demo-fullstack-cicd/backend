@@ -43,6 +43,7 @@ public class FeedCommandService {
                 .user(user)
                 .thumbnail(request.getThumbnail())
                 .plainText(request.getPlainText())
+                .hashtag(request.getHashtag())
                 .build();
 
         feedRepository.saveAndFlush(feed);
@@ -70,7 +71,7 @@ public class FeedCommandService {
 
         Feed feed = feedRepository.findById(feedId).orElseThrow(FeedException.FeedNotExistException::new);
 
-        feedRepository.updateFeed(feed, request.getTitle(), request.getContent(), request.getThumbnail(), request.getPlainText());
+        feedRepository.updateFeed(feed, request.getTitle(), request.getContent(), request.getThumbnail(), request.getPlainText(), request.getHashtag());
 
         return UpdateOneFeedResponse.builder().build();
     }

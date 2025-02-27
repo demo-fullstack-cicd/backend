@@ -83,6 +83,20 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(UserException.UserNotClubMemberException.class)
+    public ResponseEntity<ExceptionApiResponse> handleException(UserException.UserNotClubMemberException e){
+        log.error("[GlobalExceptionHandler] UserException.UserNotClubMemberException occurred");
+        return ResponseEntity
+                .status(
+                        UserExceptionStatus.USER_NOT_CLUB_MEMBER.getHttpStatus()
+                )
+                .body(
+                        new ExceptionApiResponse(
+                                false, UserExceptionStatus.USER_NOT_CLUB_MEMBER.getCode(), UserExceptionStatus.USER_NOT_CLUB_MEMBER.getMessage()
+                        )
+                );
+    }
+
     // [IMAGE]
     @ExceptionHandler(ImageException.ImageNotExistException.class)
     public ResponseEntity<ExceptionApiResponse> handleException(ImageException.ImageNotExistException e){

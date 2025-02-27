@@ -42,6 +42,9 @@ public class Feed {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "hashtag")
+    private String hashtag;
+
     @OneToMany(mappedBy = "feed", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
@@ -49,12 +52,13 @@ public class Feed {
 
     @Builder
 
-    public Feed(String title, String content, LocalDateTime uploadAt, User user, String thumbnail, String plainText) {
+    public Feed(String title, String content, LocalDateTime uploadAt, User user, String thumbnail, String plainText, String hashtag) {
         this.title = title;
         this.content = content;
         this.uploadAt = uploadAt;
         this.user = user;
         this.thumbnail = thumbnail;
         this.plainText = plainText;
+        this.hashtag = hashtag;
     }
 }

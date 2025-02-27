@@ -15,11 +15,6 @@ public class UserApplicationService {
     private final EmailCommandService emailCommandService;
     private final EmailQueryService emailQueryService;
 
-    // 사용자이름 중복 확인
-    public CheckUsernameDuplicateResponse checkUsernameDuplicate(CheckUsernameDuplicateRequest request){
-        return userQueryService.checkUsernameDuplicate(request);
-    }
-
     // 인증메일 전송
     public SendAuthEmailResponse sendAuthEmail(SendAuthEmailRequest request){
         userQueryService.checkEmailDuplicate(request);
@@ -29,6 +24,11 @@ public class UserApplicationService {
     // 인증메일 검증
     public CheckAuthEmailResponse checkAuthEmail(CheckAuthEmailRequest request){
         return emailQueryService.checkAuthEmail(request);
+    }
+
+    // 사용자이름 중복 확인
+    public CheckUsernameDuplicateResponse checkUsernameDuplicate(CheckUsernameDuplicateRequest request){
+        return userQueryService.checkUsernameDuplicate(request);
     }
 
     // 회원 가입
