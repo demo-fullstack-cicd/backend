@@ -47,7 +47,7 @@ public class UserCommandService {
     @Value("${cloud.aws.s3.bucket}")
     private String BUCKET_NAME;
 
-    private static final String FILE_KEY = "tgwing-info.xlsx";
+    private static final String FILE_KEY = "TGWING_MEMBER.xlsx";
 
 
     // 회원가입
