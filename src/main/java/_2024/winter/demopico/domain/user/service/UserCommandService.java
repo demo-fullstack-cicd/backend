@@ -55,7 +55,7 @@ public class UserCommandService {
         log.info("[UserCommandService - signup]");
 
         if (!isUserValid(request)) {
-            throw new IllegalArgumentException("동아리 회원 목록에 없는 사용자입니다.");
+            throw new UserException.UserNotClubMemberException();
         }
 
         User user = User.builder()
@@ -169,10 +169,14 @@ public class UserCommandService {
                 // 🔹 회원 정보가 엑셀에 존재하는지 확인
                 if (request.getName().equals(name) &&
                         request.getEmail().equals(email) &&
-                        request.getPhone().substring(1).equals(phone) &&
+                        request.getPhone().substring(3).equals(phone) &&
                         request.getStudentId().equals(studentId)) {
                     return true; // 유효한 회원
                 }
+
+                System.out.println("request.getPhone().substring(3): " + request.getPhone().substring(3));
+                System.out.println("phone                          : " + phone);
+
             }
         } catch (IOException e) {
             log.error("엑셀 파일을 읽는 중 오류 발생", e);
@@ -186,8 +190,6 @@ public class UserCommandService {
      */
     private InputStream getExcelFileFromS3() {
         S3Object s3Object = amazonS3.getObject(BUCKET_NAME, FILE_KEY);
-        System.out.println("BUCKET_NAME = " + BUCKET_NAME);
-        System.out.println("s3Object = " + s3Object.getBucketName());
         return s3Object.getObjectContent();
     }
 
