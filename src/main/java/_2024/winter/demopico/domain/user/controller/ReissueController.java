@@ -22,7 +22,8 @@ public class ReissueController {
     private final UserApplicationService userApplicationService;
 
     @PostMapping("/reissue")
-    @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    // @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+    @CrossOrigin(origins = "http://juhhoho.xyz", allowCredentials = "true")
     public SuccessApiResponse<ReissueResponse> reissue(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
         log.info("[ReissueController - refresh]");
 
