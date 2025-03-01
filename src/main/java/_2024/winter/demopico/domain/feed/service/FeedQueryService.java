@@ -67,6 +67,7 @@ public class FeedQueryService {
                 .uploadAt(feed.getUploadAt().toString())
                 .author(feed.getUser().getUsername())
                 .thumbnail(feed.getThumbnail())
+                .comments(String.valueOf(feed.getComments().size()))
                 .build();
     }
 }
