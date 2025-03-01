@@ -16,6 +16,6 @@ public class GetOneFeedResponse {
     private String content;
     private String author;
     private String thumbnail;
-    private String comments;
+    private String commentSize;
 
 }
