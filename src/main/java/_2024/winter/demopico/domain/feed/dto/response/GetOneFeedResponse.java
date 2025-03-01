@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class GetOneFeedResponse {
-    public String id;
-    public String title;
-    public String uploadAt;
-    public String content;
-    public String author;
-    public String thumbnail;
+    private String id;
+    private String title;
+    private String uploadAt;
+    private String content;
+    private String author;
+    private String thumbnail;
+    private String comments;
 
 }
