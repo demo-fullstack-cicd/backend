@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class FeedBriefDto {
-    public String id;
-    public String title;
-    public String uploadAt;
-    public String author;
-    public String thumbnail;
+    private String id;
+    private String title;
+    private String uploadAt;
+    private String author;
+    private String thumbnail;
+    private String commentSize;
+
 
     public FeedBriefDto(Feed feed){
         this.id = feed.getId().toString();
@@ -25,5 +27,6 @@ public class FeedBriefDto {
         this.author = feed.getUser().getUsername();
         this.uploadAt = feed.getUploadAt().toString();
         this.thumbnail = feed.getThumbnail();
+        this.commentSize = String.valueOf(feed.getContent().length());
     }
 }

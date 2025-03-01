@@ -59,7 +59,6 @@ public class FeedQueryService {
     public GetOneFeedResponse getOneFeed(Long feedId){
         log.info("[FeedQueryService - getOneFeed]");
         Feed feed = feedRepository.findById(feedId).orElseThrow(FeedException.FeedNotExistException::new);
-
         return GetOneFeedResponse.builder()
                 .id(feed.getId().toString())
                 .title(feed.getTitle())
@@ -67,7 +66,6 @@ public class FeedQueryService {
                 .uploadAt(feed.getUploadAt().toString())
                 .author(feed.getUser().getUsername())
                 .thumbnail(feed.getThumbnail())
-                .comments(String.valueOf(feed.getComments().size()))
                 .build();
     }
 }
