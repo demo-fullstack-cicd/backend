@@ -3,9 +3,11 @@ package _2024.winter.demopico.domain.user.service;
 import _2024.winter.demopico.common.apiPayload.failure.customException.UserException;
 import _2024.winter.demopico.domain.user.dto.request.LoginRequest;
 import _2024.winter.demopico.domain.user.dto.request.SignupRequest;
+import _2024.winter.demopico.domain.user.dto.request.UpdateBioRequest;
 import _2024.winter.demopico.domain.user.dto.response.LoginResponse;
 import _2024.winter.demopico.domain.user.dto.response.ReissueResponse;
 import _2024.winter.demopico.domain.user.dto.response.SignupResponse;
+import _2024.winter.demopico.domain.user.dto.response.UpdateBioResponse;
 import _2024.winter.demopico.domain.user.entity.User;
 import _2024.winter.demopico.domain.user.repository.UserRepository;
 import _2024.winter.demopico.domain.user.util.CookieUtil;
@@ -65,6 +67,7 @@ public class UserCommandService {
                 .studentId(request.getStudentId())
                 .phone(request.getPhone())
                 .name(request.name)
+                .bio("")
                 .role("ROLE_USER")
                 .build();
 
@@ -204,5 +207,20 @@ public class UserCommandService {
             case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
             default -> "";
         };
+    }
+
+    // 자기 소개글 수정
+    public UpdateBioResponse updateBio(UpdateBioRequest request, HttpServletRequest httpServletRequest){
+        log.info("[UserCommandService - updateBio]");
+        String username = jwtUtil.getUsername(httpServletRequest.getHeader("access"));
+        User user = userRepository.findByUsername(username).orElseThrow(UserException.UsernameNotExistException::new);
+
+        System.out.println("request.getBio() = " + request.getBio());
+        
+        userRepository.updateBio(user, request.getBio());
+
+        return UpdateBioResponse.builder()
+                .bio(request.getBio())
+                .build();
     }
 }
