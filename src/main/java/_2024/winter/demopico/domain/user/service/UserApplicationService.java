@@ -1,5 +1,6 @@
 package _2024.winter.demopico.domain.user.service;
 
+import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
 import _2024.winter.demopico.domain.user.dto.request.*;
 import _2024.winter.demopico.domain.user.dto.response.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,5 +45,15 @@ public class UserApplicationService {
     // 토큰 재발급
     public ReissueResponse reissue(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         return userCommandService.reissue(httpServletRequest, httpServletResponse);
+    }
+
+    // 본인 정보 조회
+    public GetInfoResponse getInfo(HttpServletRequest httpServletRequest){
+        return userQueryService.getInfo(httpServletRequest);
+    }
+
+    // 본인 소개글 수정
+    public UpdateBioResponse updateBio(UpdateBioRequest request, HttpServletRequest httpServletRequest){
+        return userCommandService.updateBio(request, httpServletRequest);
     }
 }

@@ -36,7 +36,8 @@ public class User {
     @Column(name = "name")
     private String name;
 
-
+    @Column(name = "bio")
+    private String bio;
 
     @Column(name = "role")
     private String role;
@@ -45,7 +46,7 @@ public class User {
     private List<Feed> feeds = new ArrayList<>();
 
     @Builder
-    public User(String username, String password, String email, String role, String name, String studentId, String phone) {
+    public User(String username, String password, String email, String role, String name, String studentId, String phone, String bio) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -53,5 +54,6 @@ public class User {
         this.name = name;
         this.studentId = studentId;
         this.phone = phone;
+        this.bio = bio;
     }
 }

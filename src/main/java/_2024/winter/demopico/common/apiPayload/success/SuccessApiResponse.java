@@ -26,7 +26,7 @@ public class SuccessApiResponse <T> extends BaseApiResponse {
         this.response = response;
     }
 
-    // [register]
+    // [USER - REGISTER]
     public static SuccessApiResponse<CheckUsernameDuplicateResponse> onSuccessCheckUsernameDuplicate(CheckUsernameDuplicateResponse response){
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
                 , "사용자이름 중복확인 성공", response);
@@ -44,16 +44,27 @@ public class SuccessApiResponse <T> extends BaseApiResponse {
                 , "회원가입 성공", response);
     }
 
-    // [login]
+    // [USER - LOGIN]
     public static SuccessApiResponse<LoginResponse> onSuccessLogin(LoginResponse response){
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
                 , "로그인 성공", response);
     }
 
-    // [reissue]
+    // [USER - REISSUE]
     public static SuccessApiResponse<ReissueResponse> onSuccessReissue(ReissueResponse response){
         return new SuccessApiResponse<>(true, HttpStatus.CREATED.toString()
                 , "토큰 재발급 성공", response);
+    }
+
+    // [USER - INFO]
+    public static SuccessApiResponse<GetInfoResponse> onSuccessGetInfo(GetInfoResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "본인 정보 조회 성공", response);
+    }
+
+    public static SuccessApiResponse<UpdateBioResponse> onSuccessUpdateBio(UpdateBioResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "본인 소개글 수정 성공", response);
     }
 
     // [IMAGE]
