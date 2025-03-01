@@ -27,6 +27,6 @@ public class FeedBriefDto {
         this.author = feed.getUser().getUsername();
         this.uploadAt = feed.getUploadAt().toString();
         this.thumbnail = feed.getThumbnail();
-        this.commentSize = String.valueOf(feed.getContent().length());
+        this.commentSize = String.valueOf(feed.getComments().size());
     }
 }
