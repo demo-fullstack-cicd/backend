@@ -48,11 +48,14 @@ public class Study {
     @Column(name = "document")
     private String document;
 
+    @Column(name = "schedule")
+    private String schedule;
+
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyParticipant> studyParticipants = new ArrayList<>();
 
     @Builder
-    public Study(StudyStatus status, int joinSemester, int joinYear, String organizer, String location, int currentParticipants, int capacity, String description, String title, String document) {
+    public Study(StudyStatus status, int joinSemester, int joinYear, String organizer, String location, int currentParticipants, int capacity, String description, String title, String document, String schedule) {
         this.status = status;
         this.joinSemester = joinSemester;
         this.joinYear = joinYear;
@@ -63,5 +66,6 @@ public class Study {
         this.description = description;
         this.title = title;
         this.document = document;
+        this.schedule = schedule;
     }
 }
