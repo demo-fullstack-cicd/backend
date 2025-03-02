@@ -3,10 +3,7 @@ package _2024.winter.demopico.domain.study.controller;
 import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
 import _2024.winter.demopico.domain.study.dto.request.UpdateStudyRequest;
 import _2024.winter.demopico.domain.study.dto.request.UploadStudyRequest;
-import _2024.winter.demopico.domain.study.dto.response.GetOneStudyResponse;
-import _2024.winter.demopico.domain.study.dto.response.GetStudiesResponse;
-import _2024.winter.demopico.domain.study.dto.response.UpdateStudyResponse;
-import _2024.winter.demopico.domain.study.dto.response.UploadStudyResponse;
+import _2024.winter.demopico.domain.study.dto.response.*;
 import _2024.winter.demopico.domain.study.service.StudyApplicationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -59,4 +56,14 @@ public class StudyController {
         return SuccessApiResponse.onSuccessUpdateStudy(studyApplicationService.updateStudy(studyId, request, httpServletRequest));
     }
 
+    // 스터디 수정
+    @DeleteMapping("/studies/{studyId}")
+    public SuccessApiResponse<Void> deleteStudy(
+            @PathVariable(name = "studyId") Long studyId,
+            HttpServletRequest httpServletRequest)
+    {
+        log.info("[StudyController - deleteStudy] studyId = {}", studyId);
+        studyApplicationService.deleteStudy(studyId, httpServletRequest)
+        return SuccessApiResponse.onSuccessDeleteStudy();
+    }
 }
