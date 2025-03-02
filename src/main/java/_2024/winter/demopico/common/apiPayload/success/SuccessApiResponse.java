@@ -13,6 +13,7 @@ import _2024.winter.demopico.domain.image.dto.response.GetImagesResponse;
 import _2024.winter.demopico.domain.image.dto.response.GetPresignedUrlToDownloadResponse;
 import _2024.winter.demopico.domain.image.dto.response.GetPresignedUrlToUploadResponse;
 import _2024.winter.demopico.domain.image.dto.response.UploadImageResponse;
+import _2024.winter.demopico.domain.study.dto.response.*;
 import _2024.winter.demopico.domain.user.dto.response.*;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -144,4 +145,29 @@ public class SuccessApiResponse <T> extends BaseApiResponse {
                 , "대댓글 삭제 성공", null);
     }
 
+    // [STUDY]
+    public static SuccessApiResponse<GetStudiesResponse> onSuccessGetStudies(GetStudiesResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "스터디 목록 조회 성공", response);
+    }
+
+    public static SuccessApiResponse<GetOneStudyResponse> onSuccessGetOneStudy(GetOneStudyResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "스터디 세부 조회 성공", response);
+    }
+
+    public static SuccessApiResponse<UploadStudyResponse> onSuccessUploadStudy(UploadStudyResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "스터디 업로드 성공", response);
+    }
+
+    public static SuccessApiResponse<UpdateStudyResponse> onSuccessUpdateStudy(UpdateStudyResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "스터디 업데이트 성공", response);
+    }
+
+    public static SuccessApiResponse<DeleteStudyResponse> onSuccessDeleteStudy(DeleteStudyResponse response){
+        return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
+                , "스터디 삭제 성공", response);
+    }
 }

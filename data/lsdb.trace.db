@@ -312,3 +312,19 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/jh102/D
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 59 more
+2025-03-02 14:16:20.130030+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000a    alter table if exists studies \000d\000a       add column [*]year integer"; expected "identifier"; SQL statement:
+
+    alter table if exists studies 
+       add column year integer [42001-232]
+2025-03-02 14:19:59.536783+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000a    alter table if exists studies \000d\000a       add column [*]year integer"; expected "identifier"; SQL statement:
+
+    alter table if exists studies 
+       add column year integer [42001-232]
+2025-03-02 14:21:52.896042+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select s1_0.study_id,s1_0.capacity,s1_0.current_participants,s1_0.description,s1_0.location,s1_0.organizer,s1_0.semester,s1_0.status,s1_0.title,s1_0.[*]year from studies s1_0 where s1_0.year=? and s1_0.semester=?"; expected "identifier"; SQL statement:
+select s1_0.study_id,s1_0.capacity,s1_0.current_participants,s1_0.description,s1_0.location,s1_0.organizer,s1_0.semester,s1_0.status,s1_0.title,s1_0.year from studies s1_0 where s1_0.year=? and s1_0.semester=? [42001-232]
+2025-03-02 14:22:09.554486+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select s1_0.study_id,s1_0.capacity,s1_0.current_participants,s1_0.description,s1_0.location,s1_0.organizer,s1_0.semester,s1_0.status,s1_0.title,s1_0.[*]year from studies s1_0 where s1_0.year=? and s1_0.semester=?"; expected "identifier"; SQL statement:
+select s1_0.study_id,s1_0.capacity,s1_0.current_participants,s1_0.description,s1_0.location,s1_0.organizer,s1_0.semester,s1_0.status,s1_0.title,s1_0.year from studies s1_0 where s1_0.year=? and s1_0.semester=? [42001-232]

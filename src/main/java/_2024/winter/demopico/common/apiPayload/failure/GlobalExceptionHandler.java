@@ -198,4 +198,33 @@ public class GlobalExceptionHandler {
                         )
                 );
     }
+
+    // [STUDY]
+    @ExceptionHandler(StudyException.StudyNotExistException.class)
+    public ResponseEntity<ExceptionApiResponse> handleException(StudyException.StudyNotExistException e){
+        log.error("[GlobalExceptionHandler] StudyException.StudyNotExistException occurred");
+        return ResponseEntity
+                .status(
+                        StudyExceptionStatus.STUDY_NOT_EXIST.getHttpStatus()
+                )
+                .body(
+                        new ExceptionApiResponse(
+                                false, StudyExceptionStatus.STUDY_NOT_EXIST.getCode(), StudyExceptionStatus.STUDY_NOT_EXIST.getMessage()
+                        )
+                );
+    }
+
+    @ExceptionHandler(StudyException.StudyNotOwnerException.class)
+    public ResponseEntity<ExceptionApiResponse> handleException(StudyException.StudyNotOwnerException e){
+        log.error("[GlobalExceptionHandler] StudyException.StudyNotOwnerException occurred");
+        return ResponseEntity
+                .status(
+                        StudyExceptionStatus.STUDY_NOT_OWNER.getHttpStatus()
+                )
+                .body(
+                        new ExceptionApiResponse(
+                                false, StudyExceptionStatus.STUDY_NOT_OWNER.getCode(), StudyExceptionStatus.STUDY_NOT_OWNER.getMessage()
+                        )
+                );
+    }
 }
