@@ -86,7 +86,7 @@ public class StudyCommandService {
             // 없는 id
             User participatedUser = userRepository.findByUsername(participatedUsername).orElseThrow(UserException.UsernameNotExistException::new);
 
-            if(studyParticipantRepository.existByStudyAndUser(study, participatedUser)){
+            if(studyParticipantRepository.existsByStudyAndUser(study, participatedUser)){
                 continue;
             }
 

@@ -10,5 +10,6 @@ import java.util.List;
 public interface StudyParticipantRepository extends JpaRepository<StudyParticipant, Long>{
     List<StudyParticipant> findAllByStudy(Study study);
     void deleteByStudy(Study study);
-    boolean existByStudyAndUser(Study study, User user);
+    boolean existsByStudyAndUser(Study study, User user);
+
 }
