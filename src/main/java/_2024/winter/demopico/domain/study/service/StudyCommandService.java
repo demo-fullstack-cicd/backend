@@ -82,7 +82,6 @@ public class StudyCommandService {
         studyParticipantRepository.deleteByStudy(study);
 
         for(String participatedUsername : request.getParticipants()){
-            // 없는 id
             User participatedUser = userRepository.findByUsername(participatedUsername).orElseThrow(UserException.UsernameNotExistException::new);
 
             if(studyParticipantRepository.existsByStudyAndUser(study, participatedUser)){

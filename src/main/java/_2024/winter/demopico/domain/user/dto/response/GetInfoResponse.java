@@ -1,6 +1,7 @@
 package _2024.winter.demopico.domain.user.dto.response;
 
 import _2024.winter.demopico.domain.feed.dto.FeedBriefDto;
+import _2024.winter.demopico.domain.study.dto.StudyBriefDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,4 +23,6 @@ public class GetInfoResponse {
     private String bio;
 
     private List<FeedBriefDto> feeds = new ArrayList<>();
+
+    private List<StudyBriefDto> studies = new ArrayList<>();
 }

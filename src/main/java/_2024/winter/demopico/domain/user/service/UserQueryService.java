@@ -3,6 +3,10 @@ package _2024.winter.demopico.domain.user.service;
 import _2024.winter.demopico.common.apiPayload.failure.customException.UserException;
 import _2024.winter.demopico.domain.feed.dto.FeedBriefDto;
 import _2024.winter.demopico.domain.feed.repository.FeedRepository;
+import _2024.winter.demopico.domain.study.dto.StudyBriefDto;
+import _2024.winter.demopico.domain.study.entity.Study;
+import _2024.winter.demopico.domain.study.entity.StudyParticipant;
+import _2024.winter.demopico.domain.study.repository.StudyParticipantRepository;
 import _2024.winter.demopico.domain.user.dto.request.CheckUsernameDuplicateRequest;
 import _2024.winter.demopico.domain.user.dto.request.SendAuthEmailRequest;
 import _2024.winter.demopico.domain.user.dto.response.CheckUsernameDuplicateResponse;
@@ -15,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +29,7 @@ public class UserQueryService {
     private final UserRepository userRepository;
     private final FeedRepository feedRepository;
     private final JWTUtil jwtUtil;
+    private final StudyParticipantRepository studyParticipantRepository;
 
     // 사용자이름 중복 확인
     public CheckUsernameDuplicateResponse checkUsernameDuplicate(CheckUsernameDuplicateRequest request){
@@ -57,6 +63,22 @@ public class UserQueryService {
         List<FeedBriefDto> feeds = feedRepository.findByUser(user).stream()
                 .map(FeedBriefDto::new)
                 .toList();
+        List<StudyParticipant> studyParticipants = studyParticipantRepository.findAllByUser(user);
+
+        List<StudyBriefDto> studies = new ArrayList<>();
+        for(StudyParticipant studyParticipant: studyParticipants){
+            Study study = studyParticipant.getStudy();
+            StudyBriefDto studyBriefDto = StudyBriefDto.builder()
+                    .id(study.getId().toString())
+                    .title(study.getTitle())
+                    .description(study.getDescription())
+                    .organizer(study.getOrganizer())
+                    .capacity(study.getCapacity())
+                    .currentParticipants(study.getCurrentParticipants())
+                    .build();
+
+            studies.add(studyBriefDto);
+        }
 
         return GetInfoResponse.builder()
                 .username(user.getUsername())
@@ -66,6 +88,7 @@ public class UserQueryService {
                 .name(user.getName())
                 .feeds(feeds)
                 .bio(user.getBio())
+                .studies(studies)
                 .build();
 
 
