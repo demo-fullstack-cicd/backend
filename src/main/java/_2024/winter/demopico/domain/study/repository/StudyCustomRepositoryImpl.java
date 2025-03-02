@@ -24,6 +24,8 @@ public class StudyCustomRepositoryImpl implements StudyCustomRepository{
                 .set(study.joinYear, request.getJoinYear())
                 .set(study.joinSemester, request.getJoinSemester())
                 .set(study.status, request.getStatus())
+                .set(study.document, request.getDocument())
+                .set(study.schedule, request.getSchedule())
                 .where(study.eq(oldStudy))
                 .execute();
 
