@@ -58,6 +58,7 @@ public class StudyQueryService {
                 .status(study.getStatus())
                 .studyParticipants(studyParticipantBriefDtos)
                 .document(study.getDocument())
+                .schedule(study.getSchedule())
                 .build();
     }
 }

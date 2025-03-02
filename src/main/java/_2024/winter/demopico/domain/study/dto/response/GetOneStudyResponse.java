@@ -26,4 +26,5 @@ public class GetOneStudyResponse {
     private StudyStatus status;
     private List<StudyParticipantBriefDto> studyParticipants;
     private String document;
+    private String schedule;
 }
