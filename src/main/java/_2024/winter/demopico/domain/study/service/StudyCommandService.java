@@ -35,6 +35,8 @@ public class StudyCommandService {
     public UploadStudyResponse uploadStudy(UploadStudyRequest request){
         log.info("[StudyCommandService - uploadStudy]");
 
+        User user = userRepository.findByUsername(request.getOrganizer()).orElseThrow(UserException.UsernameNotExistException::new);
+
         Study study = Study.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
@@ -50,6 +52,14 @@ public class StudyCommandService {
                 .build();
 
         studyRepository.saveAndFlush(study);
+
+        StudyParticipant studyParticipant = StudyParticipant.builder()
+                .study(study)
+                .user(user)
+                .studyParticipantRole(StudyParticipantRole.ORGANIZER)
+                .build();
+
+        studyParticipantRepository.save(studyParticipant);
 
         return UploadStudyResponse.builder()
                 .studyId(study.getId().toString())
