@@ -166,8 +166,8 @@ public class SuccessApiResponse <T> extends BaseApiResponse {
                 , "스터디 업데이트 성공", response);
     }
 
-    public static SuccessApiResponse<DeleteStudyResponse> onSuccessDeleteStudy(DeleteStudyResponse response){
+    public static SuccessApiResponse<Void> onSuccessDeleteStudy(){
         return new SuccessApiResponse<>(true, HttpStatus.OK.toString()
-                , "스터디 삭제 성공", response);
+                , "스터디 삭제 성공", null);
     }
 }

@@ -84,4 +84,19 @@ public class StudyCommandService {
                 .studyId(study.getId().toString())
                 .build();
     }
+
+    public Void deleteStudy(Long studyId, HttpServletRequest httpServletRequest){
+        log.info("[StudyCommandService - deleteStudy]");
+
+        String username = jwtUtil.getUsername(httpServletRequest.getHeader("access"));
+        User user = userRepository.findByUsername(username).orElseThrow(UserException.UsernameNotExistException::new);
+
+        Study study = studyRepository.findById(studyId).orElseThrow(StudyException.StudyNotExistException::new);
+
+        if(!study.getOrganizer().equals(user.getUsername())){
+            throw new StudyException.StudyNotOwnerException();
+        }
+
+        studyRepository.delete(study);
+    }
 }
