@@ -1,14 +1,11 @@
 package _2024.winter.demopico.domain.study.service;
 
-import _2024.winter.demopico.common.apiPayload.success.SuccessApiResponse;
 import _2024.winter.demopico.domain.study.dto.request.UpdateStudyRequest;
 import _2024.winter.demopico.domain.study.dto.request.UploadStudyRequest;
 import _2024.winter.demopico.domain.study.dto.response.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +29,7 @@ public class StudyApplicationService {
         return studyCommandService.updateStudy(studyId, request, httpServletRequest);
     }
 
-    public Void deleteStudy(Long studyId, HttpServletRequest httpServletRequest){
-        return studyCommandService.deleteStudy(studyId, httpServletRequest);
+    public void deleteStudy(Long studyId, HttpServletRequest httpServletRequest){
+        studyCommandService.deleteStudy(studyId, httpServletRequest);
     }
 }
