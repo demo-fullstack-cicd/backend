@@ -85,7 +85,7 @@ public class StudyCommandService {
                 .build();
     }
 
-    public Void deleteStudy(Long studyId, HttpServletRequest httpServletRequest){
+    public void deleteStudy(Long studyId, HttpServletRequest httpServletRequest){
         log.info("[StudyCommandService - deleteStudy]");
 
         String username = jwtUtil.getUsername(httpServletRequest.getHeader("access"));
