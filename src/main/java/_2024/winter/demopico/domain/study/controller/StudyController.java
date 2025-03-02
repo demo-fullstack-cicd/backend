@@ -63,7 +63,7 @@ public class StudyController {
             HttpServletRequest httpServletRequest)
     {
         log.info("[StudyController - deleteStudy] studyId = {}", studyId);
-        studyApplicationService.deleteStudy(studyId, httpServletRequest)
+        studyApplicationService.deleteStudy(studyId, httpServletRequest);
         return SuccessApiResponse.onSuccessDeleteStudy();
     }
 }
