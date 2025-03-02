@@ -51,7 +51,6 @@ public class Feed {
 
 
     @Builder
-
     public Feed(String title, String content, LocalDateTime uploadAt, User user, String thumbnail, String plainText, String hashtag) {
         this.title = title;
         this.content = content;

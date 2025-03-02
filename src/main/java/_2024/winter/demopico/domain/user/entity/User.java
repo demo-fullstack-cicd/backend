@@ -1,6 +1,7 @@
 package _2024.winter.demopico.domain.user.entity;
 
 import _2024.winter.demopico.domain.feed.entity.Feed;
+import _2024.winter.demopico.domain.study.entity.StudyParticipant;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,6 +45,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Feed> feeds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<StudyParticipant> studyParticipants = new ArrayList<>();
 
     @Builder
     public User(String username, String password, String email, String role, String name, String studentId, String phone, String bio) {
