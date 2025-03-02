@@ -20,4 +20,5 @@ public class UploadStudyRequest {
     private int joinYear;
     private int joinSemester;
     private StudyStatus status;
+    private String document;
 }

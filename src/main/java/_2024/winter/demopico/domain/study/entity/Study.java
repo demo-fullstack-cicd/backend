@@ -41,16 +41,18 @@ public class Study {
     @Column(name = "joinSemester")
     private int joinSemester;
 
-
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private StudyStatus status;
+
+    @Column(name = "document")
+    private String document;
 
     @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StudyParticipant> studyParticipants = new ArrayList<>();
 
     @Builder
-    public Study(StudyStatus status, int joinSemester, int joinYear, String organizer, String location, int currentParticipants, int capacity, String description, String title) {
+    public Study(StudyStatus status, int joinSemester, int joinYear, String organizer, String location, int currentParticipants, int capacity, String description, String title, String document) {
         this.status = status;
         this.joinSemester = joinSemester;
         this.joinYear = joinYear;
@@ -60,5 +62,6 @@ public class Study {
         this.capacity = capacity;
         this.description = description;
         this.title = title;
+        this.document = document;
     }
 }

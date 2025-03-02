@@ -45,6 +45,7 @@ public class StudyCommandService {
                 .joinYear(request.getJoinYear())
                 .joinSemester(request.getJoinSemester())
                 .status(request.getStatus())
+                .document(request.getDocument())
                 .build();
 
         studyRepository.saveAndFlush(study);

@@ -57,6 +57,7 @@ public class StudyQueryService {
                 .joinSemester(study.getJoinSemester())
                 .status(study.getStatus())
                 .studyParticipants(studyParticipantBriefDtos)
+                .document(study.getDocument())
                 .build();
     }
 }
