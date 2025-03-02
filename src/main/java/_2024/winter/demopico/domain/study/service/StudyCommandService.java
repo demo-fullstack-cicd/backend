@@ -81,16 +81,20 @@ public class StudyCommandService {
 
         studyParticipantRepository.deleteByStudy(study);
 
+        System.out.println("request.getParticipants() = " + request.getParticipants());
+
         for(String participatedUsername : request.getParticipants()){
 
             // 없는 id
             User participatedUser = userRepository.findByUsername(participatedUsername).orElseThrow(UserException.UsernameNotExistException::new);
 
             if(studyParticipantRepository.existsByStudyAndUser(study, participatedUser)){
+                log.info("{}은 이미 참여중임", participatedUser.getUsername());
                 continue;
             }
 
-
+            System.out.println("participatedUser.getUsername() = " + participatedUser.getUsername() + "참여 두과자");
+            
             StudyParticipant studyParticipant = StudyParticipant.builder()
                     .user(participatedUser)
                     .study(study)

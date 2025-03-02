@@ -101,6 +101,9 @@ public class UserCommandService {
         httpServletResponse.setHeader("access", access);
         httpServletResponse.addCookie(CookieUtil.createCookie("refresh", refresh));
 
+        System.out.println("refresh = " + refresh);
+
+
         return LoginResponse.builder()
                 .username(user.getUsername())
                 .build();
