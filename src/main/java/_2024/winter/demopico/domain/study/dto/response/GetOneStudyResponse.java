@@ -25,4 +25,5 @@ public class GetOneStudyResponse {
     private int joinSemester;
     private StudyStatus status;
     private List<StudyParticipantBriefDto> studyParticipants;
+    private String document;
 }
