@@ -23,4 +23,6 @@ public class UpdateStudyRequest {
     private int joinSemester;
     private StudyStatus status;
     private List<String> participants;
+    private String document;
+    private String schedule;
 }
