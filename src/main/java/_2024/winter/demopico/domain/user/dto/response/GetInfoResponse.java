@@ -22,7 +22,8 @@ public class GetInfoResponse {
     private String name;
     private String bio;
 
+    @Builder.Default
     private List<FeedBriefDto> feeds = new ArrayList<>();
-
+    @Builder.Default
     private List<StudyBriefDto> studies = new ArrayList<>();
 }
