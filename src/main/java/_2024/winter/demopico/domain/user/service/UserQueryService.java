@@ -66,6 +66,7 @@ public class UserQueryService {
         List<StudyParticipant> studyParticipants = studyParticipantRepository.findAllByUser(user);
 
         List<StudyBriefDto> studies = new ArrayList<>();
+
         for(StudyParticipant studyParticipant: studyParticipants){
             Study study = studyParticipant.getStudy();
             StudyBriefDto studyBriefDto = StudyBriefDto.builder()
@@ -78,6 +79,7 @@ public class UserQueryService {
                     .build();
 
             studies.add(studyBriefDto);
+            System.out.println("studyBriefDto = " + studyBriefDto.toString());
         }
 
         return GetInfoResponse.builder()

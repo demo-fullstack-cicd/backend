@@ -18,6 +18,7 @@ public class InfoController {
 
     private final UserApplicationService userApplicationService;
 
+    // my info
     @GetMapping("/info")
     public SuccessApiResponse<GetInfoResponse> getInfo(
             HttpServletRequest httpServletRequest)
@@ -25,7 +26,7 @@ public class InfoController {
         log.info("[InfoController - getInfo]");
         return SuccessApiResponse.onSuccessGetInfo(userApplicationService.getInfo(httpServletRequest));
     }
-
+    // update my info bio
     @PostMapping("/info/bio")
     public SuccessApiResponse<UpdateBioResponse> updateBio(
             @RequestBody UpdateBioRequest request,

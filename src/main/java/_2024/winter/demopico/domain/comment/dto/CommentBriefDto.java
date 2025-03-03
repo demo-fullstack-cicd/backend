@@ -19,6 +19,8 @@ public class CommentBriefDto {
     public String content;
     public String uploadAt;
     public String author;
+
+    @Builder.Default
     public List<ReplyBriefDto> replies = new ArrayList<>();
 
     public CommentBriefDto(Comment comment){
