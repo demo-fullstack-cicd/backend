@@ -104,7 +104,7 @@ public class UserCommandService {
         httpServletResponse.setHeader("access", access);
 
         ResponseCookie responseCookie = ResponseCookie.from("refresh", refresh)
-                .httpOnly(true)  // JavaScript에서 접근 불가
+                .httpOnly(false)  // JavaScript에서 접근 불가
                 .secure(true)    // HTTPS에서만 전송
                 .sameSite("None") // CORS 환경에서 허용
                 .path("/")
