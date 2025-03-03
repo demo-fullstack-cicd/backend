@@ -112,6 +112,7 @@ public class UserCommandService {
                 .build();
         httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
 
+        httpServletResponse.addCookie(CookieUtil.createCookie("refresh", refresh));
 
 
         return LoginResponse.builder()
