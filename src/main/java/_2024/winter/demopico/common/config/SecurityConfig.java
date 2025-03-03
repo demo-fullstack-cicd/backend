@@ -80,20 +80,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of(
-                "http://127.0.0.1:*", // 로컬 개발 환경에서 포트 제한 없이 허용
-                "http://localhost:3000",
-                "https://juhhoho.xyz" // 정확한 도메인 허용
-        ));
+        configuration.setAllowedOrigins(List.of("https://juhhoho.xyz"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*", "access"));
-        configuration.setExposedHeaders(List.of("location", "access"));
+        configuration.setExposedHeaders(List.of("location", "access", "Set-Cookie"));
         configuration.setAllowCredentials(true); // 인증 관련 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
