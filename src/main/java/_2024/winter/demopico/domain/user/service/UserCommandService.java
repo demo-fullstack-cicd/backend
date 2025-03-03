@@ -101,7 +101,6 @@ public class UserCommandService {
         stringRedisTemplate.opsForValue().set(redisRefreshKey, refresh, 1, TimeUnit.DAYS);
 
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Location, Set-Cookie");
-        httpServletResponse.setHeader("access", access);
 
         ResponseCookie responseCookie = ResponseCookie.from("refresh", refresh)
                 .httpOnly(false)  // JavaScript에서 접근 불가
@@ -110,9 +109,8 @@ public class UserCommandService {
                 .path("/")
                 .maxAge(Duration.ofDays(1))
                 .build();
-        httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
-
-        httpServletResponse.addCookie(CookieUtil.createCookie("refresh", refresh));
+        httpServletResponse.setHeader("access", access);
+        httpServletResponse.setHeader("Set-Cookie", responseCookie.toString());
 
 
         return LoginResponse.builder()
