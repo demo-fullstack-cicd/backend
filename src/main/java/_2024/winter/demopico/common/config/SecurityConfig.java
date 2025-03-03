@@ -33,7 +33,7 @@ public class SecurityConfig {
         http.csrf((auth) -> auth.disable());
 
         // cors
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        http.cors(cors -> cors.disable());
 
         //Form 로그인 방식 disable
         http.formLogin((auth) -> auth.disable());
@@ -77,18 +77,18 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(List.of("https://juhhoho.xyz"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*", "access"));
-        configuration.setExposedHeaders(List.of("location", "access", "Set-Cookie"));
-        configuration.setAllowCredentials(true); // 인증 관련 요청 허용
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//
+//        configuration.setAllowedOrigins(List.of("https://juhhoho.xyz"));
+//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(List.of("*", "access"));
+//        configuration.setExposedHeaders(List.of("location", "access", "Set-Cookie"));
+//        configuration.setAllowCredentials(true); // 인증 관련 요청 허용
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
