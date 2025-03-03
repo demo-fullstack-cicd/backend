@@ -26,12 +26,15 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -97,11 +100,18 @@ public class UserCommandService {
         String redisRefreshKey = "refresh:userId:" + user.getId();
         stringRedisTemplate.opsForValue().set(redisRefreshKey, refresh, 1, TimeUnit.DAYS);
 
-        httpServletResponse.setHeader("Access-Control-Expose-Headers", "Access, Location");
+        httpServletResponse.setHeader("Access-Control-Expose-Headers", "Location, Set-Cookie");
         httpServletResponse.setHeader("access", access);
-        httpServletResponse.addCookie(CookieUtil.createCookie("refresh", refresh));
 
-        System.out.println("refresh = " + refresh);
+        ResponseCookie responseCookie = ResponseCookie.from("refresh", refresh)
+                .httpOnly(true)  // JavaScript에서 접근 불가
+                .secure(true)    // HTTPS에서만 전송
+                .sameSite("None") // CORS 환경에서 허용
+                .path("/")
+                .maxAge(Duration.ofDays(1))
+                .build();
+        httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+
 
 
         return LoginResponse.builder()
