@@ -99,9 +99,7 @@ public class UserCommandService {
 
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Access, Location");
         httpServletResponse.setHeader("access", access);
-        httpServletResponse.addCookie(CookieUtil.createCookie("refresh", refresh));
-
-        System.out.println("refresh = " + refresh);
+        httpServletResponse.setHeader("Set-Cookie", "refresh=" + refresh + "; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=86400");
 
 
         return LoginResponse.builder()
